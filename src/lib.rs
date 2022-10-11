@@ -4,38 +4,79 @@ use tree_sitter_highlight::{Highlighter, HtmlRenderer};
 
 pub use tree_sitter_highlight::HighlightConfiguration;
 
-pub const SCOPES: &[&str] = &[
-    "include",
+pub const NAMES: &[&str] = &[
+    "annotation",
+    "attribute",
+    "boolean",
+    "character",
+    "character.special",
+    "comment",
+    "conditional",
     "constant",
+    "constant.builtin",
+    "constant.macro",
+    "constructor",
+    "debug",
+    "define",
+    "error",
+    "exception",
+    "field",
+    "float",
+    "function",
+    "function.call",
+    "function.builtin",
+    "function.macro",
+    "include",
+    "keyword",
+    "keyword.function",
+    "keyword.operator",
+    "keyword.return",
+    "label",
+    "method",
+    "method.call",
+    "namespace",
+    "none",
+    "number",
+    "operator",
+    "parameter",
+    "parameter.reference",
+    "preproc",
+    "property",
+    "punctuation.delimiter",
+    "punctuation.bracket",
+    "punctuation.special",
+    "repeat",
+    "storageclass",
+    "string",
+    "string.regex",
+    "string.escape",
+    "string.special",
+    "symbol",
+    "tag",
+    "tag.attribute",
+    "tag.delimiter",
+    "text",
+    "text.strong",
+    "text.emphasis",
+    "text.underline",
+    "text.strike",
+    "text.title",
+    "text.literal",
+    "text.uri",
+    "text.math",
+    "text.reference",
+    "text.environment",
+    "text.environment.name",
+    "text.note",
+    "text.warning",
+    "text.danger",
+    "todo",
     "type",
     "type.builtin",
-    "property",
-    "comment",
-    "constructor",
-    "function",
-    "label",
-    "keyword",
-    "keyword.control",
-    "string",
+    "type.qualifier",
+    "type.definition",
     "variable",
-    "variable.other.member",
-    "operator",
-    "attribute",
-    "escape",
-    "embedded",
-    "symbol",
-    "punctuation",
-    "punctuation.special",
-    "punctuation.delimiter",
-    "text",
-    "text.literal",
-    "text.title",
-    "text.uri",
-    "text.reference",
-    "string.escape",
-    "conceal",
-    "none",
-    "tag",
+    "variable.builtin",
 ];
 
 /// Languages
@@ -50,7 +91,7 @@ impl<'a> Languages<'a> {
     }
 
     pub fn insert(&mut self, lang: &'a str, config: HighlightConfiguration) -> &mut Self {
-        self.insert_with_names(lang, config, SCOPES)
+        self.insert_with_names(lang, config, NAMES)
     }
 
     pub fn insert_with_names(
@@ -161,7 +202,7 @@ async fn main() -> Result<()> {
                     .as_bytes()
                 )
                 .unwrap(),
-            "<pre class=language-rust><code><span class=line><span class=string>&quot;&quot;</span>\n</span>\n<span class=line><span class=include>use</span> <span class=variable>std</span><span class=punctuation.delimiter>::</span><span class=variable>net</span><span class=punctuation.delimiter>::</span><span class=variable>SocketAddr</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line><span class=include>use</span> <span class=variable>viz</span><span class=punctuation.delimiter>::</span><span class=punctuation>{</span><span class=variable>Request</span><span class=punctuation.delimiter>,</span> <span class=variable>Result</span><span class=punctuation.delimiter>,</span> <span class=variable>Router</span><span class=punctuation.delimiter>,</span> <span class=variable>Server</span><span class=punctuation.delimiter>,</span> <span class=variable>ServiceMaker</span><span class=punctuation>}</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>\n</span>\n<span class=line><span class=keyword>async</span> <span class=function>fn</span> <span class=variable>index</span><span class=punctuation>(</span>_<span class=punctuation.delimiter>:</span> <span class=type>Request</span><span class=punctuation>)</span> <span class=operator>-&gt;</span> <span class=type>Result</span><span class=operator>&lt;</span><span class=operator>&amp;</span><span class=label>&#39;</span><span class=variable>static</span> <span class=type.builtin>str</span><span class=operator>&gt;</span> <span class=punctuation>{</span>\n</span>\n<span class=line>    <span class=variable>Ok</span><span class=punctuation>(</span><span class=string>&quot;Hello Viz&quot;</span><span class=punctuation>)</span>\n</span>\n<span class=line><span class=punctuation>}</span>\n</span>\n<span class=line>\n</span>\n<span class=line><span class=punctuation.special>#</span><span class=punctuation>[</span><span class=variable>tokio</span><span class=punctuation.delimiter>::</span><span class=variable>main</span><span class=punctuation>]</span>\n</span>\n<span class=line><span class=keyword>async</span> <span class=function>fn</span> <span class=variable>main</span><span class=punctuation>(</span><span class=punctuation>)</span> <span class=operator>-&gt;</span> <span class=type>Result</span><span class=operator>&lt;</span><span class=punctuation>(</span><span class=punctuation>)</span><span class=operator>&gt;</span> <span class=punctuation>{</span>\n</span>\n<span class=line>    <span class=keyword>let</span> <span class=variable>addr</span> <span class=operator>=</span> <span class=variable>SocketAddr</span><span class=punctuation.delimiter>::</span><span class=variable>from</span><span class=punctuation>(</span><span class=punctuation>(</span><span class=punctuation>[</span>127<span class=punctuation.delimiter>,</span> 0<span class=punctuation.delimiter>,</span> 0<span class=punctuation.delimiter>,</span> 1<span class=punctuation>]</span><span class=punctuation.delimiter>,</span> 3000<span class=punctuation>)</span><span class=punctuation>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>    <span class=variable>println</span><span class=operator>!</span><span class=punctuation>(</span><span class=string>&quot;listening on {}&quot;</span>, <span class=variable>addr</span><span class=punctuation>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>\n</span>\n<span class=line>    <span class=keyword>let</span> <span class=variable>app</span> <span class=operator>=</span> <span class=variable>Router</span><span class=punctuation.delimiter>::</span><span class=variable>new</span><span class=punctuation>(</span><span class=punctuation>)</span><span class=punctuation.delimiter>.</span>get<span class=punctuation>(</span><span class=string>&quot;/&quot;</span><span class=punctuation.delimiter>,</span> <span class=variable>index</span><span class=punctuation>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>\n</span>\n<span class=line>    if <span class=keyword>let</span> <span class=variable>Err</span><span class=punctuation>(</span><span class=variable>err</span><span class=punctuation>)</span> <span class=operator>=</span> <span class=variable>Server</span><span class=punctuation.delimiter>::</span><span class=variable>bind</span><span class=punctuation>(</span><span class=operator>&amp;</span><span class=variable>addr</span><span class=punctuation>)</span>\n</span>\n<span class=line>        <span class=punctuation.delimiter>.</span>serve<span class=punctuation>(</span><span class=variable>ServiceMaker</span><span class=punctuation.delimiter>::</span><span class=variable>from</span><span class=punctuation>(</span><span class=variable>app</span><span class=punctuation>)</span><span class=punctuation>)</span>\n</span>\n<span class=line>        <span class=punctuation.delimiter>.</span><span class=keyword>await</span>\n</span>\n<span class=line>    <span class=punctuation>{</span>\n</span>\n<span class=line>        <span class=variable>println</span><span class=operator>!</span><span class=punctuation>(</span><span class=string>&quot;{}&quot;</span>, <span class=variable>err</span><span class=punctuation>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>    <span class=punctuation>}</span>\n</span>\n<span class=line>\n</span>\n<span class=line>    <span class=variable>Ok</span><span class=punctuation>(</span><span class=punctuation>(</span><span class=punctuation>)</span><span class=punctuation>)</span>\n</span>\n<span class=line><span class=punctuation>}</span>\n</span>\n<span class=line>        <span class=string>&quot;&quot;</span><span class=punctuation.delimiter></span>\n</span>\n</code></pre>"
+            "<pre class=language-rust><code><span class=line><span class=string>&quot;&quot;</span>\n</span>\n<span class=line><span class=include>use</span> <span class=variable>std</span><span class=punctuation.delimiter>::</span><span class=variable>net</span><span class=punctuation.delimiter>::</span><span class=variable>SocketAddr</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line><span class=include>use</span> <span class=variable>viz</span><span class=punctuation.delimiter>::</span><span class=punctuation.bracket>{</span><span class=variable>Request</span><span class=punctuation.delimiter>,</span> <span class=variable>Result</span><span class=punctuation.delimiter>,</span> <span class=variable>Router</span><span class=punctuation.delimiter>,</span> <span class=variable>Server</span><span class=punctuation.delimiter>,</span> <span class=variable>ServiceMaker</span><span class=punctuation.bracket>}</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>\n</span>\n<span class=line><span class=keyword>async</span> <span class=keyword.function>fn</span> <span class=variable>index</span><span class=punctuation.bracket>(</span>_<span class=punctuation.delimiter>:</span> <span class=type>Request</span><span class=punctuation.bracket>)</span> <span class=operator>-&gt;</span> <span class=type>Result</span><span class=operator>&lt;</span><span class=operator>&amp;</span><span class=label>&#39;</span><span class=variable>static</span> <span class=type.builtin>str</span><span class=operator>&gt;</span> <span class=punctuation.bracket>{</span>\n</span>\n<span class=line>    <span class=variable>Ok</span><span class=punctuation.bracket>(</span><span class=string>&quot;Hello Viz&quot;</span><span class=punctuation.bracket>)</span>\n</span>\n<span class=line><span class=punctuation.bracket>}</span>\n</span>\n<span class=line>\n</span>\n<span class=line><span class=punctuation.special>#</span><span class=punctuation.bracket>[</span><span class=variable>tokio</span><span class=punctuation.delimiter>::</span><span class=variable>main</span><span class=punctuation.bracket>]</span>\n</span>\n<span class=line><span class=keyword>async</span> <span class=keyword.function>fn</span> <span class=variable>main</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>)</span> <span class=operator>-&gt;</span> <span class=type>Result</span><span class=operator>&lt;</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>)</span><span class=operator>&gt;</span> <span class=punctuation.bracket>{</span>\n</span>\n<span class=line>    <span class=keyword>let</span> <span class=variable>addr</span> <span class=operator>=</span> <span class=variable>SocketAddr</span><span class=punctuation.delimiter>::</span><span class=variable>from</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>[</span><span class=number>127</span><span class=punctuation.delimiter>,</span> <span class=number>0</span><span class=punctuation.delimiter>,</span> <span class=number>0</span><span class=punctuation.delimiter>,</span> <span class=number>1</span><span class=punctuation.bracket>]</span><span class=punctuation.delimiter>,</span> <span class=number>3000</span><span class=punctuation.bracket>)</span><span class=punctuation.bracket>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>    <span class=variable>println</span><span class=operator>!</span><span class=punctuation.bracket>(</span><span class=string>&quot;listening on {}&quot;</span>, <span class=variable>addr</span><span class=punctuation.bracket>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>\n</span>\n<span class=line>    <span class=keyword>let</span> <span class=variable>app</span> <span class=operator>=</span> <span class=variable>Router</span><span class=punctuation.delimiter>::</span><span class=variable>new</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>)</span><span class=punctuation.delimiter>.</span><span class=field>get</span><span class=punctuation.bracket>(</span><span class=string>&quot;/&quot;</span><span class=punctuation.delimiter>,</span> <span class=variable>index</span><span class=punctuation.bracket>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>\n</span>\n<span class=line>    <span class=conditional>if</span> <span class=keyword>let</span> <span class=variable>Err</span><span class=punctuation.bracket>(</span><span class=variable>err</span><span class=punctuation.bracket>)</span> <span class=operator>=</span> <span class=variable>Server</span><span class=punctuation.delimiter>::</span><span class=variable>bind</span><span class=punctuation.bracket>(</span><span class=operator>&amp;</span><span class=variable>addr</span><span class=punctuation.bracket>)</span>\n</span>\n<span class=line>        <span class=punctuation.delimiter>.</span><span class=field>serve</span><span class=punctuation.bracket>(</span><span class=variable>ServiceMaker</span><span class=punctuation.delimiter>::</span><span class=variable>from</span><span class=punctuation.bracket>(</span><span class=variable>app</span><span class=punctuation.bracket>)</span><span class=punctuation.bracket>)</span>\n</span>\n<span class=line>        <span class=punctuation.delimiter>.</span><span class=keyword>await</span>\n</span>\n<span class=line>    <span class=punctuation.bracket>{</span>\n</span>\n<span class=line>        <span class=variable>println</span><span class=operator>!</span><span class=punctuation.bracket>(</span><span class=string>&quot;{}&quot;</span>, <span class=variable>err</span><span class=punctuation.bracket>)</span><span class=punctuation.delimiter>;</span>\n</span>\n<span class=line>    <span class=punctuation.bracket>}</span>\n</span>\n<span class=line>\n</span>\n<span class=line>    <span class=variable>Ok</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>(</span><span class=punctuation.bracket>)</span><span class=punctuation.bracket>)</span>\n</span>\n<span class=line><span class=punctuation.bracket>}</span>\n</span>\n<span class=line>        <span class=string>&quot;&quot;</span><span class=punctuation.delimiter></span>\n</span>\n</code></pre>"
         );
 
         Ok(())
